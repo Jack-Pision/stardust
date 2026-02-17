@@ -376,16 +376,37 @@ input[type="range"]:active::-webkit-slider-thumb {
 @media (max-width: 900px) {
     #app {
         flex-direction: column;
+        overflow-x: hidden;
     }
 
     .sidebar {
         width: 100%;
         height: auto;
+        max-height: 40vh;
+        overflow-y: auto;
         border-right: none;
         border-bottom: 1px solid var(--border-subtle);
+        padding: 1.5rem;
     }
 
     .viewer-main {
-        padding: 2rem;
+        padding: 1rem;
+        min-height: 60vh;
+        flex: none;
+    }
+
+    .viewer-container {
+        max-height: 50vh;
+    }
+
+    .brand h1 {
+        font-size: 1.5rem;
+    }
+
+    .social-links {
+        top: 1rem;
+        right: 1rem;
+        flex-direction: row;
+        gap: 1rem;
     }
 }

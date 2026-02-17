@@ -172,11 +172,16 @@ export class StardustEngine {
         // SMART CAMERA FITTING:
         // Adjust distance so the geometry (10 units high) fits properly.
         const fov = this.camera.fov * (Math.PI / 180);
-        let distance = 5.5 / Math.tan(fov / 2); // 5.5 instead of 5 for a bit more padding
 
-        // If the viewport is narrower than the image, pull back to fit width
+        // Base distance to fit the height of 10 units
+        let distance = 5.5 / Math.tan(fov / 2);
+
+        // If the viewport is narrower than the image (COMMON ON MOBILE)
+        // we must pull back or zoom to fit the WIDTH
         const imageAspect = this.currentImageAspect;
         if (cameraAspect < imageAspect) {
+            // This formula ensures the width of the stardust cloud 
+            // always matches the width of the user's screen
             distance = (5.5 * imageAspect) / (cameraAspect * Math.tan(fov / 2));
         }
 
