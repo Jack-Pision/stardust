@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Stardust | High-Fidelity Noisy Image Generator</title>
+  <meta name="description" content="Transform your images into high-fidelity stardust particle clouds." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/src/style.css">
+  <style>
+    /* Immediate fail-safe for dark theme */
+    body {
+      background-color: #080808;
+      margin: 0;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="app">
+    <div class="social-links">
+      <a href="https://github.com/Jack-Pision/stardust" target="_blank" class="social-link" title="GitHub">
+        <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none"
+          stroke-linecap="round" stroke-linejoin="round">
+          <path
+            d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22">
+          </path>
+        </svg>
+      </a>
+      <a href="https://x.com/Jack_pision" target="_blank" class="social-link" title="X (Twitter)">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+          <path
+            d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z">
+          </path>
+        </svg>
+      </a>
+    </div>
+
+    <aside class="sidebar">
+      <header class="brand">
+        <div class="brand-text">
+          <h1>STARDUST</h1>
+          <p>Particle Cloud Engine</p>
+        </div>
+      </header>
+
+      <nav class="tool-controls">
+        <div class="glass-card upload-section" id="drop-zone">
+          <input type="file" id="file-input" accept="image/*" hidden />
+          <div class="upload-content">
+            <span class="icon">📁</span>
+            <p>Import Image</p>
+          </div>
+        </div>
+
+        <div class="settings-group hidden" id="settings">
+          <div class="control-group">
+            <label>Density <span class="val-display" id="density-val">30,000</span></label>
+            <input type="range" id="density" min="1000" max="100000" value="30000" step="1000" />
+          </div>
+          <div class="control-group">
+            <label>Motion Drift <span class="val-display" id="drift-val">0</span></label>
+            <input type="range" id="drift" min="0" max="1.5" value="0" step="0.1" />
+          </div>
+          <div class="control-group">
+            <label>Stellar Bloom <span class="val-display" id="bloom-val">0</span></label>
+            <input type="range" id="bloom" min="0" max="2" value="0" step="0.1" />
+          </div>
+          <div class="action-footer">
+            <button id="download-png" class="btn-primary">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round" class="btn-icon">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                <polyline points="7 10 12 15 17 10"></polyline>
+                <line x1="12" y1="15" x2="12" y2="3"></line>
+              </svg>
+              <span>Export PNG</span>
+            </button>
+            <button id="download-gif" class="btn-secondary">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round" class="btn-icon">
+                <rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"></rect>
+                <line x1="7" y1="2" x2="7" y2="22"></line>
+                <line x1="17" y1="2" x2="17" y2="22"></line>
+                <line x1="2" y1="12" x2="22" y2="12"></line>
+                <line x1="2" y1="7" x2="7" y2="7"></line>
+                <line x1="2" y1="17" x2="7" y2="17"></line>
+                <line x1="17" y1="17" x2="22" y2="17"></line>
+                <line x1="17" y1="7" x2="22" y2="7"></line>
+              </svg>
+              <span>Record GIF</span>
+            </button>
+            <button id="reset-btn" class="btn-text">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round" class="btn-icon">
+                <path d="M21 2v6h-6"></path>
+                <path d="M3 12a9 9 0 0 1 15-6.7L21 8"></path>
+                <path d="M3 22v-6h6"></path>
+                <path d="M21 12a9 9 0 0 1-15 6.7L3 14"></path>
+              </svg>
+              <span>Replace Image</span>
+            </button>
+          </div>
+        </div>
+      </nav>
+
+      <footer class="app-footer">
+      </footer>
+    </aside>
+
+    <main class="viewer-main">
+      <div class="viewer-placeholder" id="viewer-placeholder">
+        <p>Stardust might not work with some images.</p>
+        <span>Try and find out.</span>
+      </div>
+      <div class="viewer-container hidden">
+        <div class="viewer-frame-dots"></div>
+        <canvas id="canvas-webgl"></canvas>
+      </div>
+    </main>
+  </div>
+  <script type="module" src="/src/main.ts"></script>
+</body>
+
+</html>
